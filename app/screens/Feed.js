@@ -52,7 +52,11 @@ class Feed extends Component {
 
   savePosts(result) {
     try {
+      let posts = realm.objects('Posts');
+      let feeds = realm.objects('Post');
       realm.write(() => {
+        realm.delete(posts);
+        realm.delete(feeds);
         result.data.map((post) => {
           realm.create('Posts', {id: post.id, creationDate: post.created_time});
         })
@@ -60,6 +64,7 @@ class Feed extends Component {
       this.setState({
         isFetching: false
       })
+      this.fetchPosts();
     } catch (error) {
       console.log("Error on create post",error);
     }
@@ -101,7 +106,6 @@ class Feed extends Component {
     return (
       <View>
         <FlatList 
-          ref={(c) => {this.scroll = c}}
           data={feeds}
           renderItem={({ item }) => (
             <List 

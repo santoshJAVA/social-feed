@@ -18,7 +18,7 @@ export default class FBLogin extends Component {
           onLoginFinished={
             (error, result) => {
               if (error) {
-                alert("login has error: " + result.error);
+                alert("login has error: " + error);
               } else if (result.isCancelled) {
                 alert("login is cancelled.");
               } else {
